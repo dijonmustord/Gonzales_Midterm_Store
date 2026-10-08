@@ -1,0 +1,73 @@
+@model List<FirstProduct.Models.Products>
+
+@{ ViewData["Title"] = "Products"; }
+
+ 
+
+<h1>Products</h1>
+
+<a asp-action="Create" class="btn btn-primary mb-3">+ Add Product</a>
+
+ 
+
+
+
+ 
+
+     <form asp-action="Index" method="get" class="mb-3">
+        <input type="text" name="searchString" value="@ViewData["searchString"]"
+               placeholder="Search product name..." />
+        <button type="submit">Search</button>
+        <a asp-action="Index">Clear</a>
+    </form>
+  
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+             
+
+        @foreach (var p in Model)
+
+        {
+            
+             <div class="col">
+             <div class="card h-100">   
+
+
+            <div class="d-flex align-items-center border p-2 rounded">
+            <span>@p.Name</span>
+            <span class="badge rounded-pill bg-primary ms-auto">@p.Category</span>
+            </div>
+
+            <div class="card-body">
+            
+        
+             <p class="card-text text-break"">  @p.Description</p>
+             
+             <h5 class="card-title">₱@p.Price.ToString("N2")</h5>
+
+
+             
+            </div>
+             
+             
+
+             <div class="card-footer mt-auto">
+              <a asp-action="Edit" asp-route-id="@p.Id"  class="btn btn-sm btn-warning">Edit</a>
+              
+              <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Delete this product?')">Delete</a>
+             <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@p.Id" class="btn btn-sm btn-success">Add To Cart</a>
+
+            
+            </div>
+            </div>
+            </div>
+                 
+
+            
+        }
+
+        </div>  
+         
+

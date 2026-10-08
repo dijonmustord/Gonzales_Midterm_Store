@@ -1,0 +1,67 @@
+@model List<FirstCart.Models.Cart>
+
+@{ ViewData["Title"] = "Shopper Cart"; }
+
+ 
+
+<h1>Shopper Cart</h1>
+
+ 
+
+<table class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>No.</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                decimal TotalTotal = 0;
+                int count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                decimal subtotal = item.Price * item.Quantity;
+                TotalTotal += subtotal;
+                count++;
+
+                <tr>
+                    <td>@count</td>
+                    <td>@item.ProductName</td>
+                    <td>₱@item.Price.ToString("N2")</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post" class="d-inline-flex align-items-center">
+                         <input type="hidden" name="id" value="@item.Id" />
+                           <input type="number" name="quantity" value="@item.Quantity"         min="1" 
+                          class="form-control form-control-sm" style="width: 80px;" 
+                         onchange="this.form.submit()" />
+                        </form>
+                    </td>
+                    <td>₱@subtotal.ToString("N2")</td>
+                    <td>
+                        <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-sm btn-danger" onclick="return confirm('Remove this item?')">Remove</a>
+                    </td>
+                </tr>
+
+                
+            }
+
+            <tr>
+
+                    <td colspan="3" class=" fw-bold text-end">Total:</td>
+                    <td colspan="2" class=" fw-bold">₱@TotalTotal.ToString("N2")</td>
+            </tr>
+        </tbody>
+    </table>
+
+ 
+
+
+         
+
